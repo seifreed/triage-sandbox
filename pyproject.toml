@@ -58,12 +58,17 @@ Homepage = "https://github.com/seifreed/triage-sandbox"
 Documentation = "https://github.com/seifreed/triage-sandbox#readme"
 Repository = "https://github.com/seifreed/triage-sandbox.git"
 Issues = "https://github.com/seifreed/triage-sandbox/issues"
-Changelog = "https://github.com/seifreed/triage-sandbox/blob/main/CHANGELOG.md"
+Changelog = "https://github.com/seifreed/triage-sandbox/releases"
 
 # hatchling builds out of tree. setuptools left a build/lib copy of the package
 # in the checkout, which then made "mypy ." fail on a duplicate module.
 [tool.hatch.build.targets.wheel]
 packages = ["src/triage_sandbox"]
+
+# Keep the sdist to the package and its metadata; without this hatchling sweeps
+# in on-disk cruft (.claude/, local dotfiles) that has no place in the release.
+[tool.hatch.build.targets.sdist]
+only-include = ["src/triage_sandbox"]
 
 [tool.black]
 line-length = 100
