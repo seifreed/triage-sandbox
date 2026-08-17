@@ -1,0 +1,94 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "triage-sandbox-cli"
+version = "1.0.0"
+description = "A comprehensive CLI and Python library for the Triage Sandbox malware analysis platform"
+readme = "README.md"
+requires-python = ">=3.14"
+license = {text = "MIT"}
+authors = [
+    {name = "Marc Rivero", email = "mriverolopez@gmail.com"},
+]
+keywords = ["malware", "analysis", "sandbox", "triage", "security", "cli", "cybersecurity", "threat-intelligence"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Security",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+    "Environment :: Console",
+]
+
+dependencies = [
+    "click>=8.1.0",
+    "requests>=2.32.0",
+    "rich>=13.0.0",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-cov>=6.0.0",
+    "black>=25.1.0",
+    "ruff>=0.9.0",
+    "mypy>=1.15.0",
+    "bandit>=1.8.0",
+    "pip-audit>=2.8.0",
+    "types-PyYAML>=6.0",
+    "types-requests>=2.32.0",
+]
+
+[project.scripts]
+triage-sandbox = "triage_sandbox.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/seifreed/triage-sandbox"
+Documentation = "https://github.com/seifreed/triage-sandbox#readme"
+Repository = "https://github.com/seifreed/triage-sandbox.git"
+Issues = "https://github.com/seifreed/triage-sandbox/issues"
+Changelog = "https://github.com/seifreed/triage-sandbox/blob/main/CHANGELOG.md"
+
+# hatchling builds out of tree. setuptools left a build/lib copy of the package
+# in the checkout, which then made "mypy ." fail on a duplicate module.
+[tool.hatch.build.targets.wheel]
+packages = ["src/triage_sandbox"]
+
+[tool.black]
+line-length = 100
+target-version = ["py314"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "C4"]
+
+[tool.mypy]
+python_version = "3.14"
+strict = true
+files = ["src", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "--cov=triage_sandbox --cov-report=term-missing --cov-fail-under=100"
+
+[tool.coverage.run]
+source = ["triage_sandbox"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 100
