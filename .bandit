@@ -1,5 +1,0 @@
-[bandit]
-# .venv and .git are not project code. tests/ is excluded because pytest's
-# assertion mechanism is flagged as B101; asserts in shipped code (src/) are
-# still fully checked.
-exclude = ./.venv,./.git,./tests
